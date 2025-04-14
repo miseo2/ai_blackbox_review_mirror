@@ -1,0 +1,10 @@
+stages:
+  - test-ssh
+
+test-ssh:
+  stage: test-ssh
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "echo 연결 성공!"
