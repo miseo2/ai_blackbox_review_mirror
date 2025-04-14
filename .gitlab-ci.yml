@@ -1,3 +1,6 @@
+stages:
+  - test-ssh
+
 test-ssh:
   stage: test-ssh
   tags:
