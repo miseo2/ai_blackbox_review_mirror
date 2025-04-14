@@ -1,8 +1,7 @@
-stages:
-  - test-ssh
-
 test-ssh:
   stage: test-ssh
+  tags:
+    - "ci / cd"
   script:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_rsa
