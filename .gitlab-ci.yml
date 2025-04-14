@@ -5,7 +5,9 @@ test-ssh:
   stage: test-ssh
   tags:
     - "ci / cd"
+  image: ubuntu:22.04
   script:
+    - apt update && apt install -y openssh-client
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
