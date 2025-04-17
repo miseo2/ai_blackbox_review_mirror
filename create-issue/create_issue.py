@@ -156,17 +156,33 @@ def create_branch_from_issue(issue_data, env_vars):
         
         # 이슈 제목에서 타입 추출 (Feat/Feature_name 형식에서)
         title_parts = issue_title.split("/", 1)
-        branch_name = ""
+        
+        # 브랜치 이름 구성요소 준비
+        branch_prefix = f"#{issue_number}"  # 항상 #이슈번호로 시작
+        issue_type = ""
+        branch_suffix = ""
         
         if len(title_parts) > 1:
             # '<타입>/<이슈_제목>' 형식인 경우
-            branch_name = f"#{issue_number}/{title_parts[1].strip()}"
+            issue_type = title_parts[0].strip()  # 타입 부분 (Feat, Fix 등)
+            branch_suffix = title_parts[1].strip()  # 제목 부분
         else:
-            # 형식이 다른 경우 이슈 번호만 사용
-            branch_name = f"#{issue_number}/{issue_title.replace(' ', '_')}"
+            # 형식이 다른 경우 전체 제목 사용
+            branch_suffix = issue_title
         
-        # 특수문자 제거하여 브랜치 이름 정리
-        branch_name = re.sub(r'[^\w/-]', '', branch_name)
+        # 브랜치 이름에 사용할 수 있도록 제목 부분 정리
+        branch_suffix = branch_suffix.replace(' ', '_')
+        branch_suffix = re.sub(r'[^\w_-]', '', branch_suffix)
+        
+        # 타입도 특수문자 제거
+        if issue_type:
+            issue_type = re.sub(r'[^\w_-]', '', issue_type)
+        
+        # 최종 브랜치 이름 조합
+        if issue_type:
+            branch_name = f"{branch_prefix}/{issue_type}/{branch_suffix}"
+        else:
+            branch_name = f"{branch_prefix}/{branch_suffix}"
         
         # 현재 브랜치 확인
         current_branch = subprocess.check_output(
@@ -183,6 +199,18 @@ def create_branch_from_issue(issue_data, env_vars):
         # 새 브랜치 생성 및 전환
         print(f"새 브랜치 '{branch_name}' 생성 중...")
         subprocess.run(["git", "checkout", "-b", branch_name])
+        
+        # 원격 저장소에 푸시
+        print("브랜치를 원격 저장소에 푸시 중...")
+        push_result = subprocess.run(["git", "push", "--set-upstream", "origin", branch_name], 
+                                    capture_output=True, text=True)
+        
+        if push_result.returncode != 0:
+            print(f"⚠️ 푸시 중 경고: {push_result.stderr}")
+            print("원격 저장소에 푸시하지 못했습니다. 필요시 수동으로 푸시하세요.")
+            print(f"명령어: git push --set-upstream origin {branch_name}")
+        else:
+            print(f"✅ 브랜치가 원격 저장소에 푸시되었습니다.")
         
         return branch_name, None
     
