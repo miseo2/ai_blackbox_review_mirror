@@ -107,10 +107,26 @@
 ![alt text](image-1.png)
 
 
-## 요구사항 명세서
+## 요구사항 명세서 4/16
 
 ![alt text](image.png)
 
-## 피그마 (진행중)
+## 피그마 (진행중) 4/17
 
 ![alt text](<스크린샷 2025-04-17 230145.png>)
+
+## 피그마 (진행중) 4/18
+
+![alt text](image-2.png)
+
+## 피그마 (진행중) + 개인공부 4/19
+
+![alt text](image-3.png)
+
+## 프로그램 명세서 & JIRA 백로그 작성
+
+![alt text](image-4.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
+![alt text](image-8.png)
