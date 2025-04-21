@@ -36,7 +36,7 @@ def generate_issue_with_llm(user_input, env_vars=None):
     
     # .env에서 추가 설정 가져오기 (기본값 설정)
     model = env_vars.get("MODEL") or os.environ.get("MODEL") or "gpt-4.1"
-    temperature = float(env_vars.get("TEMPERATURE") or os.environ.get("TEMPERATURE") or "0.7")
+    temperature = float(env_vars.get("TEMPERATURE") or os.environ.get("TEMPERATURE") or "1.0")
     max_tokens = int(env_vars.get("MAX_TOKENS") or os.environ.get("MAX_TOKENS") or "500")
     
     issue_types = ", ".join(get_issue_types())
