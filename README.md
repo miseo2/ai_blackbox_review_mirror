@@ -123,7 +123,7 @@
 
 ![alt text](image-3.png)
 
-## 프로그램 명세서 & JIRA 백로그 작성
+## 프로그램 명세서 & JIRA 백로그 작성 4/21
 
 ![alt text](image-4.png)
 ![alt text](image-5.png)
