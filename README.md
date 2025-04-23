@@ -130,3 +130,14 @@
 ![alt text](image-6.png)
 ![alt text](image-7.png)
 ![alt text](image-8.png)
+
+## 설계 미팅 & 팀 회의 & 피그마 재구성
+
+![alt text](image-9.png)
+![alt text](image-10.png)
+![alt text](image-11.png)
+
+## 프로젝트 결정사항
+
+- 프론트 -> 코틀린+안드로이드 스튜디오(백그라운드 기능) + Next.js + Capacitor (웹앱 UI)
+- 블랙박스 쪽 공문서 작성
