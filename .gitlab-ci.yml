@@ -1,35 +1,50 @@
 stages:
-  - trigger-services
+  - file-check
 
-trigger-ai:
-  stage: trigger-services
+
+ai-file-check:
+  stage: file-check
   trigger:
-    include: cicd_test/AI/.gitlab-ai-ci.yml
+    include: ai/.gitlab-ai-ci.yml
   rules:
-    - if: '$CI_COMMIT_BRANCH'  # 브랜치가 있을 때(커밋이 있을 때)
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "master"'
       changes:
-        - cicd_test/AI/**/*
-      exists:
-        - cicd_test/AI/Dockerfile
+        - ai/**/*
 
-trigger-be:
-  stage: trigger-services
-  trigger:
-    include: cicd_test/BE/.gitlab-be-ci.yml
-  rules:
-    - if: '$CI_COMMIT_BRANCH'
-      changes:
-        - cicd_test/BE/**/*
-      exists:
-        - cicd_test/BE/Dockerfile
 
-trigger-fe:
-  stage: trigger-services
+fe-file-check:
+  stage: file-check
   trigger:
-    include: cicd_test/FE/.gitlab-fe-ci.yml
+    include: frontend/.gitlab-fe-ci.yml
+    strategy: depend
   rules:
     - if: '$CI_COMMIT_BRANCH'
       changes:
-        - cicd_test/FE/**/*
+        - frontend/**/*
       exists:
-        - cicd_test/FE/Dockerfile
+        - frontend/Dockerfile
+
+
+be-file-check:
+  stage: file-check
+  trigger:
+    include: backend/.gitlab-be-ci.yml
+    strategy: depend
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+      changes:
+        - backend/**/*
+      exists:
+        - backend/Dockerfile
+
+
+deploy-file-check:
+  stage: file-check
+  trigger:
+    include: deploy/.gitlab-deploy-ci.yml
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+      changes:
+        - deploy/**/*
+      exists:
+        - deploy/Dockerfile
