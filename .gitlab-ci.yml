@@ -1,0 +1,50 @@
+stages:
+  - file-check
+
+
+ai-file-check:
+  stage: file-check
+  trigger:
+    include: ai/.gitlab-ai-ci.yml
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "master"'
+      changes:
+        - ai/**/*
+
+
+fe-file-check:
+  stage: file-check
+  trigger:
+    include: frontend/.gitlab-fe-ci.yml
+    strategy: depend
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+      changes:
+        - frontend/**/*
+      exists:
+        - frontend/Dockerfile
+
+
+be-file-check:
+  stage: file-check
+  trigger:
+    include: backend/.gitlab-be-ci.yml
+    strategy: depend
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+      changes:
+        - backend/**/*
+      exists:
+        - backend/Dockerfile
+
+
+deploy-file-check:
+  stage: file-check
+  trigger:
+    include: deploy/.gitlab-deploy-ci.yml
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+      changes:
+        - deploy/**/*
+      exists:
+        - deploy/Dockerfile
